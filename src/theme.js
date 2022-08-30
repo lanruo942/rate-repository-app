@@ -10,8 +10,10 @@ const theme = {
 		textSecondary: '#586069',
 		primary: '#0366d6',
 		white: '#ffffff',
+		error: '#d73a4a',
 	},
 	fontSizes: {
+		small: 12,
 		body: 14,
 		subheading: 16,
 	},
@@ -27,6 +29,7 @@ const theme = {
 		main: '#e1e4e8',
 		tab: '#24292e',
 		white: '#ffffff',
+		grey: '#cdcdcd',
 	}
 };
 
