@@ -4,8 +4,9 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 21:47:37
  */
-import { Pressable, Text, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
+import Text from './Text';
 import theme from '../theme';
 
 const styles = StyleSheet.create({

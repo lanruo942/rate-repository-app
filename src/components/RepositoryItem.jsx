@@ -4,7 +4,8 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 22:48:21
  */
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import Text from './Text';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
 	},
 	counts: {
 		fontWeight: theme.fontWeights.bold,
-	}
+	},
 });
 
 const RepositoryItem = ({ item }) => {
@@ -60,16 +61,16 @@ const RepositoryItem = ({ item }) => {
 		if (+num < 1000) {
 			return num;
 		}
-		
+
 		num = num / 1000 + '';
-		num = num.match(/^\d+(?:\.?\d?)/)
+		num = num.match(/^\d+(?:\.?\d?)/);
 
 		return num + 'k';
 	};
 
 	const stars = thousandsFormat(item.stargazersCount);
-	const forks = thousandsFormat(item.forksCount)
-	const review = thousandsFormat(item.reviewCount)
+	const forks = thousandsFormat(item.forksCount);
+	const review = thousandsFormat(item.reviewCount);
 
 	return (
 		<View style={styles.container}>
