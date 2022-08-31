@@ -4,7 +4,7 @@ import { ME } from '../graphql/queries';
 const useUser = () => {
 	const result = useQuery(ME);
 
-	return result?.data?.me;
+	return result.data?.me;
 };
 
 export default useUser;

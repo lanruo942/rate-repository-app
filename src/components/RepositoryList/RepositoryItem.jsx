@@ -73,9 +73,9 @@ const RepositoryItem = ({ item }) => {
 	const review = thousandsFormat(item.reviewCount);
 
 	return (
-		<View style={styles.container}>
+		<View style={styles.container} testID="repositoryItem">
 			<View style={styles.flexRow}>
-				<Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
+				<Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} testID="repositoryAvatar" />
 				<View style={styles.mainInfo}>
 					<Text style={styles.title}>{item.fullName}</Text>
 					<Text style={styles.description}>{item.description}</Text>
