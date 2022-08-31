@@ -19,7 +19,6 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
 	const { repositories, error, loading } = useRepositories();
-	console.log(repositories, error, loading)
 
 	if (loading) return <Text>Loading...</Text>;
 	if (error) return <Text>Error! {error.message}</Text>;
