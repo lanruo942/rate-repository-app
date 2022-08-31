@@ -4,9 +4,10 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 21:46:23
  */
-import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
-import theme from '../theme';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import theme from '../../theme';
+import useUser from '../../hooks/useUser';
 import AppBarTab from './AppBarTab';
 
 const styles = StyleSheet.create({
@@ -17,11 +18,17 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+	const me = useUser();
+
 	return (
 		<View style={styles.container}>
 			<ScrollView horizontal>
 				<AppBarTab name={'Repositories'} href="/" />
-				<AppBarTab name={'Sign in'} href="/signin" />
+				{me ? (
+					<AppBarTab name={'Logout'} href="/logout" />
+				) : (
+					<AppBarTab name={'Sign in'} href="/signin" />
+				)}
 			</ScrollView>
 		</View>
 	);

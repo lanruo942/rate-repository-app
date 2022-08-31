@@ -4,9 +4,9 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 22:48:21
  */
-import { View, Image, StyleSheet } from 'react-native';
-import Text from './Text';
-import theme from '../theme';
+import { Image, StyleSheet, View } from 'react-native';
+import theme from '../../theme';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
 	container: {

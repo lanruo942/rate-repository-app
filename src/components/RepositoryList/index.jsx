@@ -4,10 +4,10 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 13:21:58
  */
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
+import useRepositories from '../../hooks/useRepositories';
+import Text from '../Text';
 import RepositoryItem from './RepositoryItem';
-import useRepositories from '../hooks/useRepositories';
-import Text from './Text';
 
 const styles = StyleSheet.create({
 	separator: {

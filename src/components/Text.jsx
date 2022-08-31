@@ -4,7 +4,7 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 14:15:59
  */
-import { Text as NativeText, StyleSheet } from 'react-native';
+import { StyleSheet, Text as NativeText } from 'react-native';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
