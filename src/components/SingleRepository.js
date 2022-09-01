@@ -1,4 +1,12 @@
-import { FlatList, StyleSheet, View } from 'react-native';
+import {
+	FlatList,
+	StyleSheet,
+	View,
+	KeyboardAvoidingView,
+	TouchableWithoutFeedback,
+	Platform,
+	Keyboard,
+} from 'react-native';
 import { useParams } from 'react-router-native';
 import useRepository from '../hooks/useRepository';
 import useReviews from '../hooks/useReviews';
@@ -7,6 +15,8 @@ import { ItemSeparator } from './RepositoryList';
 import RepositoryItem from './RepositoryList/RepositoryItem';
 import Text from './Text';
 import { format } from 'date-fns';
+import Review from './Review';
+import useUser from '../hooks/useUser';
 
 const styles = StyleSheet.create({
 	flexRow: {
@@ -64,28 +74,45 @@ const ReviewItem = ({ review }) => {
 };
 
 const SingleRepository = () => {
+	const me = useUser();
 	const { id } = useParams();
 	const { repository } = useRepository(id);
 	const { reviews } = useReviews(id);
-
-	console.log(reviews);
 
 	const repositoryItem = repository ?? {};
 	const reviewsItems = reviews ?? [];
 
 	return (
-		<FlatList
-			data={reviewsItems}
-			renderItem={({ item }) => <ReviewItem review={item} />}
-			keyExtractor={({ id }) => id}
-			ItemSeparatorComponent={ItemSeparator}
-			ListHeaderComponent={() => (
-				<>
-					<RepositoryInfo item={repositoryItem} />
-					<ItemSeparator />
-				</>
-			)}
-		/>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			style={{ flex: 1 }}
+		>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<FlatList
+					data={reviewsItems}
+					renderItem={({ item }) => <ReviewItem review={item} />}
+					keyExtractor={({ id }) => id}
+					ItemSeparatorComponent={ItemSeparator}
+					ListHeaderComponent={() => (
+						<>
+							<RepositoryInfo item={repositoryItem} />
+							<ItemSeparator />
+						</>
+					)}
+					ListFooterComponent={() =>
+						me && (
+							<>
+								<ItemSeparator />
+								<Review fullName={repositoryItem?.fullName} />
+							</>
+						)
+					}
+					contentContainerStyle={{
+						justifyContent: 'space-around',
+					}}
+				/>
+			</TouchableWithoutFeedback>
+		</KeyboardAvoidingView>
 	);
 };
 
