@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
 		width: 50,
 		height: 50,
 		borderRadius: 5,
-		marginRight: 20,
 	},
 	mainInfo: {
 		flexShrink: 1,
 		flexDirection: 'column',
 		overflow: 'hidden',
+		paddingLeft: 20,
 	},
 	title: {
 		fontSize: theme.fontSizes.subheading,
