@@ -4,10 +4,13 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 13:21:58
  */
+import { useState } from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import useRepositories from '../../hooks/useRepositories';
 import RepositoryItem from './RepositoryItem';
+import RepositoryListMenu from './RepositoryListMenu';
+import RepositoryListContext from '../../contexts/RepositoryListContext';
 
 const styles = StyleSheet.create({
 	separator: {
@@ -25,7 +28,7 @@ export const RepositoryListContainer = ({ repositories }) => {
 		: [];
 
 	const handlePress = (id) => {
-		navigate(`/repository/${id}`)
+		navigate(`/repository/${id}`);
 	};
 
 	return (
@@ -38,14 +41,24 @@ export const RepositoryListContainer = ({ repositories }) => {
 			)}
 			ItemSeparatorComponent={ItemSeparator}
 			keyExtractor={(item) => item.id}
+			ListHeaderComponent={() => <RepositoryListMenu />}
 		/>
 	);
 };
 
 const RepositoryList = () => {
-	const { repositories } = useRepositories();
+	const [order, setOrder] = useState({
+		orderBy: 'CREATED_AT',
+		orderDirection: 'DESC',
+	});
+	const [menuName, setMenuName] = useState('Latest repositories');
+	const { repositories } = useRepositories(order.orderBy, order.orderDirection);
 
-	return <RepositoryListContainer repositories={repositories} />;
+	return (
+		<RepositoryListContext.Provider value={[menuName, setMenuName, setOrder]}>
+			<RepositoryListContainer repositories={repositories} />
+		</RepositoryListContext.Provider>
+	);
 };
 
 export default RepositoryList;
