@@ -9,15 +9,16 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-	rating: yup.number()
+	rating: yup
+		.number()
 		.typeError('Rating must be a number')
 		.required('Rating is required')
 		.min(0, 'Minimum value is 0')
 		.max(100, 'Maximum value is 100')
-		.integer('Please enter an integer')
+		.integer('Please enter an integer'),
 });
 
-const Review = ({ fullName }) => {
+const Review = ({ fullName, setIsCreate }) => {
 	const [createReview] = useCreateReview();
 	const args = fullName ? fullName.split('/') : [];
 	const ownerName = args && args[0];
@@ -25,12 +26,16 @@ const Review = ({ fullName }) => {
 
 	const onSubmit = async ({ rating, review }) => {
 		try {
-			await createReview({
+			const data = await createReview({
 				repositoryName,
 				ownerName,
 				rating,
 				text: review,
 			});
+
+			if (data) {
+				setIsCreate(true)
+			}
 		} catch (e) {
 			console.log(e);
 		}

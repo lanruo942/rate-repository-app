@@ -1,22 +1,23 @@
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 import {
 	FlatList,
-	StyleSheet,
-	View,
-	KeyboardAvoidingView,
-	TouchableWithoutFeedback,
-	Platform,
 	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	View,
 } from 'react-native';
 import { useParams } from 'react-router-native';
 import useRepository from '../hooks/useRepository';
 import useReviews from '../hooks/useReviews';
+import useUser from '../hooks/useUser';
 import theme from '../theme';
 import { ItemSeparator } from './RepositoryList';
 import RepositoryItem from './RepositoryList/RepositoryItem';
-import Text from './Text';
-import { format } from 'date-fns';
 import Review from './Review';
-import useUser from '../hooks/useUser';
+import Text from './Text';
 
 const styles = StyleSheet.create({
 	flexRow: {
@@ -59,7 +60,7 @@ const RepositoryInfo = ({ item }) => <RepositoryItem item={item} />;
 const ReviewItem = ({ review }) => {
 	return (
 		<View style={styles.flexRow}>
-			<View style={styles.ratingBox}>
+			<View>
 				<Text style={styles.rating}>{review.rating}</Text>
 			</View>
 			<View style={styles.content}>
@@ -74,13 +75,29 @@ const ReviewItem = ({ review }) => {
 };
 
 const SingleRepository = () => {
+	const [isCreate, setIsCreate] = useState(false);
+	const [isFetching, setIsFetching] = useState(false);
 	const me = useUser();
 	const { id } = useParams();
 	const { repository } = useRepository(id);
-	const { reviews } = useReviews(id);
+	const { reviews, refetch } = useReviews(id);
+
+	const refetchReviews = async () => {
+		await refetch();
+	};
+
+	if (isCreate && reviews) {
+		refetchReviews();
+		setIsCreate(false);
+	}
+
+	const onRefresh = async () => {
+		setIsFetching(true);
+		refetchReviews();
+		setIsFetching(false);
+	};
 
 	const repositoryItem = repository ?? {};
-	const reviewsItems = reviews ?? [];
 
 	return (
 		<KeyboardAvoidingView
@@ -89,10 +106,12 @@ const SingleRepository = () => {
 		>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<FlatList
-					data={reviewsItems}
+					data={reviews ?? []}
 					renderItem={({ item }) => <ReviewItem review={item} />}
 					keyExtractor={({ id }) => id}
 					ItemSeparatorComponent={ItemSeparator}
+					onRefresh={onRefresh}
+					refreshing={isFetching}
 					ListHeaderComponent={() => (
 						<>
 							<RepositoryInfo item={repositoryItem} />
@@ -103,7 +122,10 @@ const SingleRepository = () => {
 						me && (
 							<>
 								<ItemSeparator />
-								<Review fullName={repositoryItem?.fullName} />
+								<Review
+									fullName={repositoryItem?.fullName}
+									setIsCreate={setIsCreate}
+								/>
 							</>
 						)
 					}

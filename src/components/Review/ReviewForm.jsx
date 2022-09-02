@@ -1,9 +1,4 @@
-import {
-	Pressable,
-	StyleSheet,
-	View,
-	Keyboard,
-} from 'react-native';
+import { Pressable, StyleSheet, View, Keyboard } from 'react-native';
 import { useEffect, useState } from 'react';
 import theme from '../../theme';
 import FormikTextInput from '../FormikTextInput';
@@ -27,7 +22,7 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		marginBottom: 25,
 		height: 104,
-		overflow: 'hidden'
+		overflow: 'hidden',
 	},
 	multiInput: {
 		fontSize: theme.fontSizes.subheading,
@@ -36,13 +31,10 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	button: {
-		backgroundColor: theme.backgroundColors.primary,
 		color: theme.colors.white,
 		fontWeight: theme.fontWeights.bold,
 		textAlign: 'center',
 		paddingVertical: 15,
-		borderRadius: 3,
-		overflow: 'hidden',
 	},
 });
 
@@ -84,7 +76,18 @@ const ReviewForm = ({ onSubmit }) => {
 					scrollEnabled={isScrollEnabled}
 				/>
 			</View>
-			<Pressable onPress={onSubmit}>
+			<Pressable
+				onPress={onSubmit}
+				style={({ pressed }) => [
+					{
+						borderRadius: 3,
+						overflow: 'hidden',
+						backgroundColor: pressed
+							? theme.backgroundColors.grey
+							: theme.backgroundColors.primary,
+					},
+				]}
+			>
 				<Text style={styles.button}>Create a review</Text>
 			</Pressable>
 		</View>
