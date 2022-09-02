@@ -4,13 +4,14 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-15 13:21:58
  */
-import { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import useRepositories from '../../hooks/useRepositories';
 import RepositoryItem from './RepositoryItem';
-import RepositoryListMenu from './RepositoryListMenu';
+import RepositoryListHeader from './RepositoryListHeader';
 import RepositoryListContext from '../../contexts/RepositoryListContext';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
 	separator: {
@@ -26,10 +27,14 @@ export const RepositoryListContainer = ({ repositories }) => {
 	const repositoryNodes = repositories
 		? repositories?.edges?.map((edge) => edge.node)
 		: [];
-
+	
 	const handlePress = (id) => {
 		navigate(`/repository/${id}`);
 	};
+
+	const renderHeader = useMemo(() => {
+		return <RepositoryListHeader />
+	}, [])
 
 	return (
 		<FlatList
@@ -41,7 +46,7 @@ export const RepositoryListContainer = ({ repositories }) => {
 			)}
 			ItemSeparatorComponent={ItemSeparator}
 			keyExtractor={(item) => item.id}
-			ListHeaderComponent={() => <RepositoryListMenu />}
+			ListHeaderComponent={renderHeader}
 		/>
 	);
 };
@@ -50,13 +55,22 @@ const RepositoryList = () => {
 	const [order, setOrder] = useState({
 		orderBy: 'CREATED_AT',
 		orderDirection: 'DESC',
+		searchKeyword: '',
 	});
 	const [menuName, setMenuName] = useState('Latest repositories');
-	const { repositories } = useRepositories(order.orderBy, order.orderDirection);
+	const navigate = useNavigate();
+	const { repositories } = useRepositories(
+		order.orderBy,
+		order.orderDirection,
+		order.searchKeyword
+	);
 
 	return (
-		<RepositoryListContext.Provider value={[menuName, setMenuName, setOrder]}>
-			<RepositoryListContainer repositories={repositories} />
+		<RepositoryListContext.Provider value={{ menuName, setMenuName, setOrder }}>
+			<RepositoryListContainer
+				repositories={repositories}
+				navigate={navigate}
+			/>
 		</RepositoryListContext.Provider>
 	);
 };

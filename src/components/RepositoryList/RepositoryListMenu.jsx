@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Menu, Text } from 'react-native-paper';
+import { Button, Menu } from 'react-native-paper';
 import useRepositoryList from '../../hooks/useRepositoryList';
 import theme from '../../theme';
 
 const RepositoryListMenu = () => {
 	const [visible, setVisible] = useState(false);
-	const [menuName, setMenuName, setOrder] = useRepositoryList();
+	const { menuName, setMenuName, setOrder } = useRepositoryList();
 
 	const openMenu = () => setVisible(true);
 	const closeMenu = () => setVisible(false);
 
 	const handlePress = (orderBy, orderDirection, menu) => {
 		setMenuName(menu);
-		setOrder({
-			orderBy,
-			orderDirection,
+		setOrder((o) => {
+			return {
+				...o,
+				orderBy,
+				orderDirection,
+			};
 		});
 	};
 
@@ -41,7 +44,7 @@ const RepositoryListMenu = () => {
 		<View
 			style={{
 				justifyContent: 'flex-start',
-				paddingVertical: 5,
+				paddingVertical: 15,
 			}}
 		>
 			<Menu
@@ -68,7 +71,9 @@ const RepositoryListMenu = () => {
 					left: '5%',
 				}}
 				contentStyle={{
-					backgroundColor: 'white',
+					flexDirection: 'column',
+					alignItems: 'center',
+					backgroundColor: 'white'
 				}}
 			>
 				{menuItems.map(({ name, orderBy, orderDirection }) => (
@@ -76,6 +81,9 @@ const RepositoryListMenu = () => {
 						key={name}
 						onPress={() => handlePress(orderBy, orderDirection, name)}
 						title={name}
+						style={{
+							width: 600,
+						}}
 					/>
 				))}
 			</Menu>
