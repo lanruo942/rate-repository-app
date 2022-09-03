@@ -11,7 +11,6 @@ import useRepositories from '../../hooks/useRepositories';
 import RepositoryItem from './RepositoryItem';
 import RepositoryListHeader from './RepositoryListHeader';
 import RepositoryListContext from '../../contexts/RepositoryListContext';
-import Text from '../Text';
 
 const styles = StyleSheet.create({
 	separator: {
@@ -21,20 +20,20 @@ const styles = StyleSheet.create({
 
 export const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, onEndReach }) => {
 	const navigate = useNavigate();
 	// Get the nodes from the edges array
 	const repositoryNodes = repositories
 		? repositories?.edges?.map((edge) => edge.node)
 		: [];
-	
+
 	const handlePress = (id) => {
 		navigate(`/repository/${id}`);
 	};
 
 	const renderHeader = useMemo(() => {
-		return <RepositoryListHeader />
-	}, [])
+		return <RepositoryListHeader />;
+	}, []);
 
 	return (
 		<FlatList
@@ -47,6 +46,8 @@ export const RepositoryListContainer = ({ repositories }) => {
 			ItemSeparatorComponent={ItemSeparator}
 			keyExtractor={(item) => item.id}
 			ListHeaderComponent={renderHeader}
+			onEndReached={onEndReach}
+			onEndReachedThreshold={0.5}
 		/>
 	);
 };
@@ -56,20 +57,20 @@ const RepositoryList = () => {
 		orderBy: 'CREATED_AT',
 		orderDirection: 'DESC',
 		searchKeyword: '',
+		first: 8,
 	});
 	const [menuName, setMenuName] = useState('Latest repositories');
-	const navigate = useNavigate();
-	const { repositories } = useRepositories(
-		order.orderBy,
-		order.orderDirection,
-		order.searchKeyword
-	);
+	const { repositories, fetchMore } = useRepositories(order);
+
+	const onEndReach = () => {
+		fetchMore();
+	};
 
 	return (
 		<RepositoryListContext.Provider value={{ menuName, setMenuName, setOrder }}>
 			<RepositoryListContainer
 				repositories={repositories}
-				navigate={navigate}
+				onEndReach={onEndReach}
 			/>
 		</RepositoryListContext.Provider>
 	);

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
 	FlatList,
 	Keyboard,
@@ -80,13 +80,16 @@ const SingleRepository = () => {
 	const me = useUser();
 	const { id } = useParams();
 	const { repository } = useRepository(id);
-	const { reviews, refetch } = useReviews(id);
+	const { reviews, fetchMore, loading, refetch } = useReviews({
+		repositoryId: id,
+		first: 8,
+	});
 
 	const refetchReviews = async () => {
 		await refetch();
 	};
 
-	if (isCreate && reviews) {
+	if (isCreate && !loading) {
 		refetchReviews();
 		setIsCreate(false);
 	}
@@ -95,6 +98,10 @@ const SingleRepository = () => {
 		setIsFetching(true);
 		refetchReviews();
 		setIsFetching(false);
+	};
+
+	const onEndReach = () => {
+		fetchMore();
 	};
 
 	const repositoryItem = repository ?? {};
@@ -112,6 +119,8 @@ const SingleRepository = () => {
 					ItemSeparatorComponent={ItemSeparator}
 					onRefresh={onRefresh}
 					refreshing={isFetching}
+					onEndReached={onEndReach}
+					onEndReachedThreshold={0.5}
 					ListHeaderComponent={() => (
 						<>
 							<RepositoryInfo item={repositoryItem} />
