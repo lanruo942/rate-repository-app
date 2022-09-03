@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
-import useUser from '../hooks/useUser';
-import { ItemSeparator } from './RepositoryList';
-import ReviewItem from './ReviewItem';
+import useUser from '../../hooks/useUser';
+import { ItemSeparator } from '../RepositoryList';
+import MyReviewsItem from './MyReviewsItem';
 
 const MyReviews = () => {
 	const [isFetching, setIsFetching] = useState(false);
@@ -10,8 +10,6 @@ const MyReviews = () => {
 		first: 8,
 		includeReviews: true,
 	});
-
-	console.log(me)
 
 	const reviews = me?.reviews?.edges.map((edge) => edge.node);
 
@@ -28,7 +26,9 @@ const MyReviews = () => {
 	return (
 		<FlatList
 			data={reviews ?? []}
-			renderItem={({ item }) => <ReviewItem review={item} />}
+			renderItem={({ item }) => (
+				<MyReviewsItem review={item} refetch={refetch} />
+			)}
 			keyExtractor={({ id }) => id}
 			ItemSeparatorComponent={ItemSeparator}
 			onRefresh={onRefresh}

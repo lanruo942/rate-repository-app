@@ -22,7 +22,7 @@ const SingleRepository = () => {
 	const [isFetching, setIsFetching] = useState(false);
 	const { me } = useUser();
 	const { id } = useParams();
-	const { repository } = useRepository(id);
+	const repository = useRepository(id);
 	const { reviews, fetchMore, loading, refetch } = useReviews({
 		repositoryId: id,
 		first: 8,
@@ -30,6 +30,7 @@ const SingleRepository = () => {
 
 	const refetchReviews = async () => {
 		await refetch();
+		await repository.refetch();
 	};
 
 	if (isCreate && !loading) {
@@ -47,7 +48,7 @@ const SingleRepository = () => {
 		fetchMore();
 	};
 
-	const repositoryItem = repository ?? {};
+	const repositoryItem = repository.repository ?? {};
 
 	return (
 		<KeyboardAvoidingView

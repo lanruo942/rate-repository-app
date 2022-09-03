@@ -21,9 +21,15 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		paddingVertical: 15,
 	},
+	error: {
+		color: theme.colors.error,
+		marginTop: 10,
+		alignSelf: 'center',
+		height: 14,
+	}
 });
 
-const SignInForm = ({ onSubmit }) => {
+const SignInForm = ({ onSubmit, result }) => {
 	return (
 		<View style={styles.view}>
 			<FormikTextInput
@@ -51,6 +57,7 @@ const SignInForm = ({ onSubmit }) => {
 			>
 				<Text style={styles.button}>Sign in</Text>
 			</Pressable>
+			<Text style={styles.error}>{result.error && result.error.message}</Text>
 		</View>
 	);
 };

@@ -36,6 +36,7 @@ const theme = {
 		tab: '#24292e',
 		white: '#ffffff',
 		grey: '#cdcdcd',
+		red: '#D32F2F',
 	},
 };
 

@@ -48,6 +48,10 @@ export const ME = gql`
 							id
 							username
 						}
+						repository {
+							id
+							fullName
+						}
 					}
 				}
 				pageInfo {
