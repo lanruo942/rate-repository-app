@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import ReviewForm from './ReviewForm';
+import CreateReviewForm from './CreateReviewForm';
 import useCreateReview from '../../hooks/useCreateReview';
 import * as yup from 'yup';
 
@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
 		.integer('Please enter an integer'),
 });
 
-const Review = ({ fullName, setIsCreate }) => {
+const CreateReview = ({ fullName, setIsCreate }) => {
 	const [createReview] = useCreateReview();
 	const args = fullName ? fullName.split('/') : [];
 	const ownerName = args && args[0];
@@ -47,9 +47,9 @@ const Review = ({ fullName, setIsCreate }) => {
 			validationSchema={validationSchema}
 			onSubmit={onSubmit}
 		>
-			{({ handleSubmit }) => <ReviewForm onSubmit={handleSubmit} />}
+			{({ handleSubmit }) => <CreateReviewForm onSubmit={handleSubmit} />}
 		</Formik>
 	);
 };
 
-export default Review;
+export default CreateReview;

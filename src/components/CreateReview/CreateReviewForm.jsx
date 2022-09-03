@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ReviewForm = ({ onSubmit }) => {
+const CreateReviewForm = ({ onSubmit }) => {
 	const [isScrollEnabled, setIsScrollEnabled] = useState(true);
 
 	function onKeyboardWillShow() {
@@ -94,4 +94,4 @@ const ReviewForm = ({ onSubmit }) => {
 	);
 };
 
-export default ReviewForm;
+export default CreateReviewForm;
