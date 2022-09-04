@@ -59,7 +59,6 @@ const RepositoryList = () => {
 		searchKeyword: '',
 		first: 8,
 	});
-	const [menuName, setMenuName] = useState('Latest repositories');
 	const { repositories, fetchMore } = useRepositories(order);
 
 	const onEndReach = () => {
@@ -67,7 +66,7 @@ const RepositoryList = () => {
 	};
 
 	return (
-		<RepositoryListContext.Provider value={{ menuName, setMenuName, setOrder }}>
+		<RepositoryListContext.Provider value={{ setOrder }}>
 			<RepositoryListContainer
 				repositories={repositories}
 				onEndReach={onEndReach}

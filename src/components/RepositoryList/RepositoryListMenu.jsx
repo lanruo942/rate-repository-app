@@ -6,7 +6,8 @@ import theme from '../../theme';
 
 const RepositoryListMenu = () => {
 	const [visible, setVisible] = useState(false);
-	const { menuName, setMenuName, setOrder } = useRepositoryList();
+	const [menuName, setMenuName] = useState('Latest repositories');
+	const { setOrder } = useRepositoryList();
 
 	const openMenu = () => setVisible(true);
 	const closeMenu = () => setVisible(false);
