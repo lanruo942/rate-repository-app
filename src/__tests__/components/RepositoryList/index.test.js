@@ -48,7 +48,7 @@ describe('RepositoryList', () => {
 			};
 
 			// Add your test code here
-			const { getAllByTestId, getByTestId } = render(
+			const { getAllByTestId } = render(
 				<RepositoryListContainer repositories={repositories} />
 			);
 

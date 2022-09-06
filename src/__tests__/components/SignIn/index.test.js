@@ -7,7 +7,7 @@ describe('SignIn', () => {
 		it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
 			// render the SignInContainer component, fill the text inputs and press the submit button
 			const signIn = jest.fn();
-			const { debug, getByPlaceholderText, getByText } = render(
+			const { getByPlaceholderText, getByText } = render(
 				<NativeRouter>
 					<SignInContainer signIn={signIn} />
 				</NativeRouter>
