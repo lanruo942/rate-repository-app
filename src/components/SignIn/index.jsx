@@ -1,8 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import { useNavigate } from 'react-router-native';
 import * as yup from 'yup';
 import useSignIn from '../../hooks/useSignIn';
 import SignInForm from './SignInForm';
+import KeyboardDismiss from '../KeyboardDismiss';
 
 const initialValues = {
 	username: '',
@@ -15,7 +16,7 @@ const validationSchema = yup.object({
 });
 
 export const SignInContainer = ({ signIn, result }) => {
-	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	const onSubmit = async (values) => {
 		const { username, password } = values;
@@ -23,7 +24,7 @@ export const SignInContainer = ({ signIn, result }) => {
 		try {
 			const data = await signIn({ username, password });
 			if (data) {
-				navigate('/');
+				navigation.navigate('Repositories');
 			}
 		} catch (e) {
 			console.log(e);
@@ -31,22 +32,28 @@ export const SignInContainer = ({ signIn, result }) => {
 	};
 
 	return (
-		<>
+		<KeyboardDismiss>
 			<Formik
-			initialValues={initialValues}
+				initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={onSubmit}
 			>
-				{({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} result={result} />}
+				{({ handleSubmit }) => (
+					<SignInForm onSubmit={handleSubmit} result={result} />
+				)}
 			</Formik>
-		</>
+		</KeyboardDismiss>
 	);
 };
 
 const SignIn = () => {
 	const [signIn, result] = useSignIn();
 
-	return <SignInContainer signIn={signIn} result={result} />;
+	return (
+		<>
+			<SignInContainer signIn={signIn} result={result} />
+		</>
+	);
 };
 
 export default SignIn;

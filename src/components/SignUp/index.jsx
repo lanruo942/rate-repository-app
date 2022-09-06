@@ -1,8 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import { useNavigate } from 'react-router-native';
 import * as yup from 'yup';
-import useSignUp from '../../hooks/useSignUp';
 import useSignIn from '../../hooks/useSignIn';
+import useSignUp from '../../hooks/useSignUp';
+import KeyboardDismiss from '../KeyboardDismiss';
 import SignUpForm from './SignUpForm';
 
 const initialValues = {
@@ -29,12 +30,12 @@ const validationSchema = yup.object({
 		.required('Password is required'),
 	passwordConfirm: yup
 		.string()
-		.oneOf([yup.ref('password'), null], 'The password don\'t match')
+		.oneOf([yup.ref('password'), null], "The password don't match")
 		.required('Password confirm is required'),
 });
 
 export const SignUpContainer = ({ signUp, signIn }) => {
-	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	const onSubmit = async (values) => {
 		const { username, password } = values;
@@ -43,7 +44,7 @@ export const SignUpContainer = ({ signUp, signIn }) => {
 			const data = await signUp({ username, password });
 			if (data) {
 				await signIn({ username, password });
-				navigate('/');
+				navigation.navigate('Repositories');
 			}
 		} catch (e) {
 			console.log(e);
@@ -51,7 +52,7 @@ export const SignUpContainer = ({ signUp, signIn }) => {
 	};
 
 	return (
-		<>
+		<KeyboardDismiss>
 			<Formik
 				initialValues={initialValues}
 				validationSchema={validationSchema}
@@ -59,7 +60,7 @@ export const SignUpContainer = ({ signUp, signIn }) => {
 			>
 				{({ handleSubmit }) => <SignUpForm onSubmit={handleSubmit} />}
 			</Formik>
-		</>
+		</KeyboardDismiss>
 	);
 };
 

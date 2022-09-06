@@ -1,5 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useNavigate } from 'react-router-native';
 import useLogout from '../hooks/useLogout';
 import theme from '../theme';
 import Text from './Text';
@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
 
 const Logout = () => {
 	const logout = useLogout();
-	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	const handleLogout = async () => {
 		try {
 			await logout();
-			navigate('/');
+			navigation.navigate('Repositories');
 		} catch (e) {
 			console.log(e);
 		}

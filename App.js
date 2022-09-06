@@ -4,20 +4,22 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-24 18:37:03
  */
-import { StatusBar } from 'expo-status-bar';
-import { NativeRouter } from 'react-router-native';
 import { ApolloProvider } from '@apollo/client';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import {
+	MD3LightTheme as DefaultTheme,
+	Provider as PaperProvider,
+} from 'react-native-paper';
 import Main from './src/components/Main';
+import AuthStorageContext from './src/contexts/AuthStorageContext';
 import createApolloClient from './src/utils/apolloClient';
 import AuthStorage from './src/utils/authStorage';
-import AuthStorageContext from './src/contexts/AuthStorageContext';
-import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 
 const theme = {
 	...DefaultTheme,
-	colors: {
-	}
-}
+	colors: {},
+};
 
 const authStorage = new AuthStorage();
 const apolloClient = createApolloClient(authStorage);
@@ -25,15 +27,15 @@ const apolloClient = createApolloClient(authStorage);
 const App = () => {
 	return (
 		<>
-			<NativeRouter>
-				<ApolloProvider client={apolloClient}>
-					<AuthStorageContext.Provider value={authStorage}>
+			<ApolloProvider client={apolloClient}>
+				<AuthStorageContext.Provider value={authStorage}>
+					<NavigationContainer>
 						<PaperProvider theme={theme}>
 							<Main />
 						</PaperProvider>
-					</AuthStorageContext.Provider>
-				</ApolloProvider>
-			</NativeRouter>
+					</NavigationContainer>
+				</AuthStorageContext.Provider>
+			</ApolloProvider>
 			<StatusBar style="auto" />
 		</>
 	);

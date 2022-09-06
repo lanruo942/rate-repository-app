@@ -6,22 +6,20 @@ import {
 	Platform,
 	TouchableWithoutFeedback,
 } from 'react-native';
-import { useParams } from 'react-router-native';
 import useRepository from '../hooks/useRepository';
 import useReviews from '../hooks/useReviews';
 import useUser from '../hooks/useUser';
-import { ItemSeparator } from './RepositoryList';
-import RepositoryItem from './RepositoryList/RepositoryItem';
 import CreateReview from './CreateReview';
+import ItemSeparator from './ItemSeparator';
+import RepositoryItem from './RepositoryList/RepositoryItem';
 import ReviewItem from './ReviewItem';
 
 const RepositoryInfo = ({ item }) => <RepositoryItem item={item} />;
 
-const SingleRepository = () => {
+const SingleRepository = ({ id }) => {
 	const [isCreate, setIsCreate] = useState(false);
 	const [isFetching, setIsFetching] = useState(false);
 	const { me } = useUser();
-	const { id } = useParams();
 	const repository = useRepository(id);
 	const { reviews, fetchMore, loading, refetch } = useReviews({
 		repositoryId: id,

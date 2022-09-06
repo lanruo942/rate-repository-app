@@ -5,15 +5,8 @@
  * @LastEditTime: 2022-08-15 21:46:49
  */
 import { StyleSheet, View } from 'react-native';
-import { Navigate, Route, Routes } from 'react-router-native';
 import theme from '../theme';
-import AppBar from './AppBar';
-import Logout from './Logout';
-import SingleRepository from './SingleRepository';
-import RepositoryList from './RepositoryList';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import MyReviews from './MyReviews';
+import BottomTab from './Navigator/BottomTab';
 
 const styles = StyleSheet.create({
 	container: {
@@ -26,16 +19,7 @@ const styles = StyleSheet.create({
 const Main = () => {
 	return (
 		<View style={styles.container}>
-			<AppBar />
-			<Routes>
-				<Route path="/" element={<RepositoryList />} />
-				<Route path="/repository/:id" element={<SingleRepository />} />
-				<Route path="/signin" element={<SignIn />} />
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/logout" element={<Logout />} />
-				<Route path="/myreviews" element={<MyReviews />} />
-				<Route path="*" element={<Navigate to="/" replace />} />
-			</Routes>
+			<BottomTab />
 		</View>
 	);
 };

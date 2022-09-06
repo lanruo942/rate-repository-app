@@ -32,6 +32,11 @@ const FormikTextInput = ({ name, ...props }) => {
 				value={field.value}
 				error={showError}
 				{...props}
+				onEndEditing={(event) => {
+					if (event.nativeEvent.text.length === 0) {
+						helpers.setValue('');
+					}
+				}}
 			/>
 			{showError && <Text style={styles.errorText}>{meta.error}</Text>}
 		</View>

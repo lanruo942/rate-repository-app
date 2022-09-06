@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
 import useUser from '../../hooks/useUser';
-import { ItemSeparator } from '../RepositoryList';
+import ItemSeparator from '../ItemSeparator';
 import MyReviewsItem from './MyReviewsItem';
 
 const MyReviews = () => {

@@ -16,7 +16,7 @@
 		"production": {
 			"node": "16.16.0",
 			"env": {
-				"APOLLO_URI": "http://192.168.50.75:4000/graphql"
+				"APOLLO_URI": "https://rateapi.always.icu/graphql"
 			}
 		}
 	}

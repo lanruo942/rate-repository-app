@@ -2,8 +2,8 @@ import { format } from 'date-fns';
 import { StyleSheet, View, Pressable, Alert } from 'react-native';
 import theme from '../../theme';
 import Text from '../Text';
-import { useNavigate } from 'react-router-native';
 import useDeleteReview from '../../hooks/useDeleteReview';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
 	container: {
@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
 		fontSize: theme.fontSizes.body,
 		fontWeight: theme.fontWeights.bold,
 		color: theme.colors.white,
-	}
+	},
 });
 
 const ReviewItem = ({ review, refetch }) => {
-	const navigate = useNavigate();
 	const [deleteReview] = useDeleteReview();
+	const navigation = useNavigation();
 
 	const createDeleteButtonAlert = () => {
 		Alert.alert(
@@ -98,7 +98,9 @@ const ReviewItem = ({ review, refetch }) => {
 			<View style={styles.flexRow}>
 				<Pressable
 					title={'View repository'}
-					onPress={() => navigate(`/repository/${review.repository.id}`)}
+					onPress={() =>
+						navigation.navigate('Repository', { id: review.repository.id })
+					}
 					style={({ pressed }) => [
 						{
 							flexDirection: 'row',
@@ -110,7 +112,7 @@ const ReviewItem = ({ review, refetch }) => {
 							backgroundColor: pressed
 								? theme.backgroundColors.grey
 								: theme.backgroundColors.primary,
-						}
+						},
 					]}
 				>
 					<Text style={styles.button}>View repository</Text>
@@ -128,7 +130,7 @@ const ReviewItem = ({ review, refetch }) => {
 							backgroundColor: pressed
 								? theme.backgroundColors.grey
 								: theme.backgroundColors.red,
-						}
+						},
 					]}
 				>
 					<Text style={styles.button}>Delete review</Text>
